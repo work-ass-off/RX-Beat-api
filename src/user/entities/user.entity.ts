@@ -2,14 +2,18 @@ import { Exclude } from 'class-transformer';
 import { randomUUID } from 'crypto';
 
 export class User {
-  id: string = randomUUID();
-  login!: string;
+  id: string;
+  login: string | null;
   @Exclude()
-  password!: string;
-  createdAt: number = Date.now();
-  updatedAt: number = Date.now();
+  password: string | null;
+  createdAt: number;
+  updatedAt: number;
 
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
+  constructor(user: Partial<User>) {
+    this.id = randomUUID();
+    this.login = user.login || null;
+    this.password = user.password || null;
+    this.createdAt = user.createdAt || Date.now();
+    this.updatedAt = user.updatedAt || Date.now();
   }
 }

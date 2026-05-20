@@ -20,8 +20,8 @@ export class UserService {
       updatedAt: 1775041279468,
     },
   ];
-  create(createUserDto: CreateUserDto) {
-    const user = new User(createUserDto);
+  create(dto: CreateUserDto) {
+    const user = new User(dto);
     this.users.push(user);
     return user;
   }
@@ -41,15 +41,15 @@ export class UserService {
     return user;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  update(id: string, dto: UpdateUserDto) {
     const user = this.findOne(id);
-    if (user.login !== updateUserDto.oldLogin) {
+    if (user.login !== dto.oldLogin) {
       throw new ForbiddenException('Incorrect old login');
     }
-    if (user.password !== updateUserDto.password) {
+    if (user.password !== dto.password) {
       throw new ForbiddenException('Incorrect password');
     }
-    user.login = updateUserDto.newLogin;
+    user.login = dto.newLogin;
     user.updatedAt = Date.now();
 
     return user;
