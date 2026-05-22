@@ -3,17 +3,19 @@ import { randomUUID } from 'crypto';
 
 export class User {
   id: string;
-  login: string | null;
+  login: string;
+
   @Exclude()
-  password: string | null;
+  password: string;
+
   createdAt: number;
   updatedAt: number;
 
-  constructor(user: Partial<User>) {
+  constructor(user: Pick<User, 'login' | 'password'>) {
     this.id = randomUUID();
-    this.login = user.login || null;
-    this.password = user.password || null;
-    this.createdAt = user.createdAt || Date.now();
-    this.updatedAt = user.updatedAt || Date.now();
+    this.login = user.login;
+    this.password = user.password;
+    this.createdAt = Date.now();
+    this.updatedAt = Date.now();
   }
 }

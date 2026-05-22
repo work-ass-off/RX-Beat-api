@@ -8,6 +8,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { isUUID } from 'class-validator';
+import { compareData, hashData } from 'src/common/utils/hash';
+
+// BadRequestException — 400
+// UnauthorizedException — 401
+// ForbiddenException — 403
+// NotFoundException — 404
+// ConflictException — 409
 
 @Injectable()
 export class UserService {
@@ -20,8 +27,10 @@ export class UserService {
       updatedAt: 1775041279468,
     },
   ];
-  create(dto: CreateUserDto) {
-    const user = new User(dto);
+
+  async create(dto: CreateUserDto) {
+    const hashedPassword = await hashData(dto.password);
+    const user = new User({ login: dto.login, password: hashedPassword });
     this.users.push(user);
     return user;
   }
@@ -41,13 +50,17 @@ export class UserService {
     return user;
   }
 
-  update(id: string, dto: UpdateUserDto) {
+  async update(id: string, dto: UpdateUserDto) {
     const user = this.findOne(id);
+
+    const isPasswordValid = await compareData(dto.password, user.password!);
+
+    if (!isPasswordValid) {
+      throw new ForbiddenException('Incorrect password');
+    }
+
     if (user.login !== dto.oldLogin) {
       throw new ForbiddenException('Incorrect old login');
-    }
-    if (user.password !== dto.password) {
-      throw new ForbiddenException('Incorrect password');
     }
     user.login = dto.newLogin;
     user.updatedAt = Date.now();
