@@ -4,8 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/';
 import { User } from './entities/user.entity';
 import { isUUID } from 'class-validator';
 import { compareData, hashData } from 'src/common/utils/hash';
@@ -37,6 +36,14 @@ export class UserService {
 
   findAll() {
     return this.users;
+  }
+
+  async findByLogin(login: string) {
+    const user = this.users.find((user) => user.login === login);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 
   findOne(id: string) {
