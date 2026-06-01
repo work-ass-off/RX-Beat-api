@@ -32,7 +32,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory);
 
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://rx-beat-api.onrender.com/'],
+    origin: true,
     credentials: true,
   });
 
