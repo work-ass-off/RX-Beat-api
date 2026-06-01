@@ -8,13 +8,21 @@ export class AuthController {
 
   @HttpCode(200)
   @Post('login')
-  signIn(@Body() dto: AuthDto) {
-    return this.authService.signIn(dto);
+  async signIn(@Body() dto: AuthDto) {
+    const tokens = await this.authService.logIn(dto);
+
+    return {
+      access_token: tokens.access_token,
+    };
   }
 
   @HttpCode(201)
   @Post('signup')
-  signUp(@Body() dto: AuthDto) {
-    return this.authService.signUp(dto);
+  async signUp(@Body() dto: AuthDto) {
+    const tokens = await this.authService.signUp(dto);
+
+    return {
+      access_token: tokens.access_token,
+    };
   }
 }

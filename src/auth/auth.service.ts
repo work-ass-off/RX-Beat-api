@@ -19,7 +19,7 @@ export class AuthService {
     private readonly config: ConfigService,
   ) {}
 
-  async signIn(dto: AuthDto): Promise<Token> {
+  async logIn(dto: AuthDto): Promise<Token> {
     const user = await this.userService.findByLogin(dto.login);
 
     const isPasswordValid = await compareData(dto.password, user.password!);
@@ -41,16 +41,17 @@ export class AuthService {
       sub: userId,
       login,
     };
-    const secret = this.config.get('JWT_SECRET');
 
     const [accessToken, refreshToken] = await Promise.all([
+      //access token
       this.jwt.signAsync(payload, {
         expiresIn: '15m',
-        secret: secret,
+        secret: this.config.get('JWT_SECRET_ACCESS'),
       }),
+      //refresh token
       this.jwt.signAsync(payload, {
-        expiresIn: '60m',
-        secret: secret,
+        expiresIn: '7d',
+        secret: this.config.get('JWT_SECRET_REFRESH'),
       }),
     ]);
 

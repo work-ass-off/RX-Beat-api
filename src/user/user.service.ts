@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -26,8 +27,11 @@ export class UserService {
       updatedAt: 1775041279468,
     },
   ];
-
   async create(dto: CreateUserDto) {
+    const userExists = this.users.find((user) => user.login === dto.login);
+    if (userExists) {
+      throw new ConflictException('User already exists');
+    }
     const hashedPassword = await hashData(dto.password);
     const user = new User({ login: dto.login, password: hashedPassword });
     this.users.push(user);

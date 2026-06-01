@@ -7,11 +7,16 @@ import {
   Param,
   Delete,
   HttpCode,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtGuard } from 'src/auth/guard/jwt.guard';
+import { User } from './entities/user.entity';
 
+@UseGuards(JwtGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -26,6 +31,11 @@ export class UserController {
   @HttpCode(200) //Default можно не писать
   findAll() {
     return this.userService.findAll();
+  }
+
+  @Get('me')
+  getProfile(@Request() req: { user: User }) {
+    return req.user;
   }
 
   @Get(':id')
