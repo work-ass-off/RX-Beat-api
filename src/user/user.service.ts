@@ -26,6 +26,13 @@ export class UserService {
       createdAt: 1775041279468,
       updatedAt: 1775041279468,
     },
+    {
+      id: 'lec40a79-983c-487a-be9b-6ffff661a8c0',
+      login: 'a',
+      password: 'a',
+      createdAt: 1775041279468,
+      updatedAt: 1775041279468,
+    },
   ];
   async create(dto: CreateUserDto) {
     const userExists = this.users.find((user) => user.login === dto.login);
