@@ -29,7 +29,7 @@ export class UserService {
     {
       id: 'lec40a79-983c-487a-be9b-6ffff661a8c0',
       login: 'a',
-      password: 'a',
+      password: '$2b$10$u5qHPksjKbK.bX2PXl0spugXHDd07qJXsUpig2bs3PFkMAw/7XccW',
       createdAt: 1775041279468,
       updatedAt: 1775041279468,
     },
