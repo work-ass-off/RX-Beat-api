@@ -15,7 +15,7 @@ export class PlaylistService {
     {
       id: 'fec40a79-983c-487a-be9b-6ffff661a8c0',
       name: 'My playlist',
-      userId: 'lec40a79-983c-487a-be9b-6ffff661a8c0',
+      userId: 'bec40a79-983c-487a-be9b-6ffff661a8c0',
       createdAt: 1775041279468,
       updatedAt: 1775041279468,
       tracks: ['1157362'],
