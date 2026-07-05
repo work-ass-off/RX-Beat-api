@@ -1,6 +1,6 @@
-import { IsEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class AddTrackDto {
-  @IsEmpty({ message: 'Name must not be empty' })
+  @IsNotEmpty({ message: 'Track ID must not be empty' })
   trackId!: string;
 }
